@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html, body {
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+.header {
+	text-align:center;
+	font-family:"Trebuchet MS",Helvetica,sans-serif;
+	font-size: 450%;
+}
+#sign-in-cont{
+	position:relative;
+	width:100%;
+}
+#log-in{
+	background-color:efefef;
+}
+.container {
+	padding-top : 20px;
+	padding-bottom : 20px;
+	margin : 10px auto 10px;
+	text-align:center;
+	width:40%;
+	border : 1px solid #000;
+	background:  rgba(0,0,0,0.1);
+	transition : 0.3s;
+}
+.input-div {
+	text-align:center;
+	padding : 1px 1px 1px 1px; 
+}
+#list{
+	padding:1px 2px 1px 1px;
+	color: #000;
+	font-size : 2em;
+}
+input {
+	opacity :0.1%;
+	border: none;
+	background-color:#fff;
+	padding: 10px 10px 10px 10px;
+	width:70%;
+	transition:0.2s;
+}
+input:focus, textarea:focus {
+	padding:15px 15px 15px 15px;
+	outline: none;
+	border-bottom:2px solid #efefef;
+}
+.create-but {
+	background-color:#efefef; 
+	width:30%;
+	color:#000;
+}
+a {
+	color:#000;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<script>
+function checkName(str) {
+  if (str.length==0) { 
+    document.getElementById("fnp").innerHTML="Please enter a name";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById("fnp").innerHTML=this.responseText;
+    }
+  }
+  xmlhttp.open("GET","usernamecheck.php?q="+str,true);
+  xmlhttp.send();
+}
+</script>
+<div class="header">PlanMap</div>
+<div style="text-align:center">
+<div id = "sign-in-cont">
+<div class = "container" align="center">
+<form action="firstpg.php" method="post">
+<div class="input-div">
+<input type = "text" id="fn" name="user_name" onblur="checkName(this.value)" placeholder="Name*" required><p id="fnp"></p>
+</div>
+<br>
+<div class="input-div">
+<input type = "text" id="em" name = "e-mail" onblur="checkMail();" placeholder="E-Mail*" required><p id="emp"></p>
+</div>
+<br>
+<div class="input-div">
+<input type = "text" id="mn" name = "mobo" onblur="checkMobo();" placeholder="Mobile Number" required><p id="mnp"></p>
+</div>
+<br>
+<div class="input-div">
+<input type = "password" id="ps" name = "password" onblur="checkPassword();" placeholder="Password*" required><p id="psp"></p>
+</div>
+<br>
+<div class="input-div">
+<input type="password" id="rps" name = "re-enter" onblur="checkReEnter();" placeholder="Re-enter Password*" required><p id="rpsp"></p>
+</div>
+<br>
+<script>
+var psd;
+var a=b=c=d=e=0;
+function checkMail()
+{
+	var str = document.getElementById("em").value;
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!(re.test(str)))
+	{
+		document.getElementById("emp").innerHTML = "Please enter valid email";
+		a=1;
+	}
+	else 
+	{
+	document.getElementById("emp").innerHTML = "";
+	a=0;
+	}
+}
+function checkMobo()
+{
+	var str = document.getElementById("mn").value;
+    if (isNaN(str) || str < 7000000000 || str > 9999999999)
+	{
+    document.getElementById("mnp").innerHTML = "plz enter a valid phone number";
+	b=1;
+	}
+	else
+	{
+	document.getElementById("mnp").innerHTML = "";
+	b=0;
+	}
+} 
+function checkPassword()
+{
+	var str = document.getElementById("ps").value;
+	var n = str.length;
+	if ( (n < 4)  || (n > 10) )
+	{
+		document.getElementById("psp").innerHTML ="password length should be between 4 and 10";
+		c=1;
+	}
+	else 
+	{
+	document.getElementById("psp").innerHTML = "";
+	c=0;
+	}
+	psd = str;
+}
+function checkReEnter()
+{
+	var str = document.getElementById("rps").value;
+	if (str == psd)
+	{
+		document.getElementById("rpsp").innerHTML = ""; 
+		d=1;
+	}
+	else 
+	{
+	document.getElementById("rpsp").innerHTML = "Re-entered password is incorrect"; 
+	d=0;
+	}
+}
+</script>
+<div class="input-div">
+<input class="create-but" type = "submit" value="Create Account" />
+</div>
+</form>
+</div>
+</div>
+<p id="demo"></p>
+</div>
+</body>
+</html>
